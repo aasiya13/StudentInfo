@@ -215,7 +215,7 @@ public class login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, e);
                 }
             } else {
-                JOptionPane.showMessageDialog(rootPane, "UserName or Passowr inacurate");
+                JOptionPane.showMessageDialog(rootPane, "UserName or Passowrd inacurate");
             }
 
         } catch (SQLException | HeadlessException e) {

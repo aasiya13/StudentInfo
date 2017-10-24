@@ -1,6 +1,8 @@
 
+import com.sun.glass.events.KeyEvent;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,11 +21,11 @@ import net.proteanit.sql.DbUtils;
  * @author Sithara
  */
 public class DashBoard extends javax.swing.JFrame {
-    
+
     private Connection connection = null;
     private PreparedStatement pst = null;
     private ResultSet resultSet = null;
-    
+
     public DashBoard() {
         initComponents();
         init();
@@ -31,18 +33,18 @@ public class DashBoard extends javax.swing.JFrame {
         updateStudentInfoTbl();
         updateStudentShortInfoTbl();
     }
-    
+
     public void init() {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
     }
-    
+
     public void close() {
         WindowEvent windowClosingEvnt = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowClosingEvnt);
     }
-    
+
     private void updateStudentInfoTbl() {
         try {
             String sql = "select Student_id, First_name, Last_name, Department,"
@@ -54,7 +56,7 @@ public class DashBoard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, e);
         }
     }
-    
+
     private void updateStudentShortInfoTbl() {
         try {
             String sql = "select Student_id, First_name from Student_info";
@@ -62,6 +64,23 @@ public class DashBoard extends javax.swing.JFrame {
             resultSet = pst.executeQuery();
             tblStudentShortInfo.setModel(DbUtils.resultSetToTableModel(resultSet));
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+    }
+    
+       private void  getVlaueForTextArea() {
+        try{
+        txtStudentId.setText(resultSet.getString("Student_id"));
+        txtStudentFname.setText(resultSet.getString("First_name"));
+        txtStudentLname.setText(resultSet.getString("Last_name"));
+        txtStudentDepartment.setText(resultSet.getString("Department"));
+        txtStudentSeries.setText(resultSet.getString("Series"));
+        txtStudentAge.setText(resultSet.getString("Age"));
+        txtStudentHeight.setText(resultSet.getString("Height"));
+        txtStudentWeight.setText(resultSet.getString("Weight"));
+        ComboStudentGender.setSelectedItem(resultSet.getString("Gender"));
+        txtStudentBlood.setText(resultSet.getString("Blood"));
+        } catch(SQLException e){
             JOptionPane.showMessageDialog(rootPane, e);
         }
     }
@@ -119,6 +138,7 @@ public class DashBoard extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
+        mitHelp = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
@@ -158,6 +178,16 @@ public class DashBoard extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblStudentInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblStudentInfoMouseClicked(evt);
+            }
+        });
+        tblStudentInfo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblStudentInfoKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblStudentInfo);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -455,6 +485,11 @@ public class DashBoard extends javax.swing.JFrame {
                 tblStudentShortInfoMouseClicked(evt);
             }
         });
+        tblStudentShortInfo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblStudentShortInfoKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblStudentShortInfo);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -547,6 +582,17 @@ public class DashBoard extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Help");
+
+        mitHelp.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mitHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/help.png"))); // NOI18N
+        mitHelp.setText("Offline Help");
+        mitHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitHelpActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mitHelp);
+
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("About");
@@ -577,7 +623,7 @@ public class DashBoard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mitCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitCloseActionPerformed
-        
+
         try {
             close();
             login obj = new login();
@@ -662,24 +708,76 @@ public class DashBoard extends javax.swing.JFrame {
             String sql = "select * from Student_info where Student_id = '" + tableClick + "'";
             pst = connection.prepareStatement(sql);
             resultSet = pst.executeQuery();
-            if(resultSet.next()){
-                txtStudentId.setText(resultSet.getString("Student_id"));
-                txtStudentFname.setText(resultSet.getString("First_name"));
-                txtStudentLname.setText(resultSet.getString("Last_name"));
-                txtStudentDepartment.setText(resultSet.getString("Department"));
-                txtStudentSeries.setText(resultSet.getString("Series"));
-                txtStudentAge.setText(resultSet.getString("Age"));
-                txtStudentHeight.setText(resultSet.getString("Height"));
-                txtStudentWeight.setText(resultSet.getString("Weight"));
-                ComboStudentGender.setSelectedItem(resultSet.getString("Gender"));
-                txtStudentBlood.setText(resultSet.getString("Blood"));
-            }else{
-            
+            if (resultSet.next()) {
+                getVlaueForTextArea();
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e);
         }
     }//GEN-LAST:event_tblStudentShortInfoMouseClicked
+
+    private void tblStudentShortInfoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblStudentShortInfoKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            try {
+                int row = tblStudentShortInfo.getSelectedRow();
+                String tableClick = tblStudentShortInfo.getModel().getValueAt(row, 0).toString();
+                String sql = "select * from Student_info where Student_id = '" + tableClick + "'";
+                pst = connection.prepareStatement(sql);
+                resultSet = pst.executeQuery();
+                if (resultSet.next()) {
+                    getVlaueForTextArea();
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(rootPane, e);
+            }
+        }
+    }//GEN-LAST:event_tblStudentShortInfoKeyReleased
+
+    private void tblStudentInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStudentInfoMouseClicked
+        // TODO add your handling code here:
+        try {
+            int row = tblStudentInfo.getSelectedRow();
+            String tableClick = tblStudentInfo.getModel().getValueAt(row, 0).toString();
+            String sql = "select * from Student_info where Student_id = '" + tableClick + "'";
+            pst = connection.prepareStatement(sql);
+            resultSet = pst.executeQuery();
+            if (resultSet.next()) {
+                getVlaueForTextArea();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+    }//GEN-LAST:event_tblStudentInfoMouseClicked
+
+    private void tblStudentInfoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblStudentInfoKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            try {
+                int row = tblStudentInfo.getSelectedRow();
+                String tableClick = tblStudentInfo.getModel().getValueAt(row, 0).toString();
+                String sql = "select * from Student_info where Student_id = '" + tableClick + "'";
+                pst = connection.prepareStatement(sql);
+                resultSet = pst.executeQuery();
+                if (resultSet.next()) {
+                    getVlaueForTextArea();
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(rootPane, e);
+            }
+        }
+    }//GEN-LAST:event_tblStudentInfoKeyReleased
+
+    private void mitHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitHelpActionPerformed
+        // TODO add your handling code here:
+        try{
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"D:\\Mine\\Java\\StudentRecord\\EasyStat\\Files\\Help.pdf");
+        }catch(IOException e ){
+            JOptionPane.showMessageDialog(rootPane, "Error opening File");
+        } 
+            
+    }//GEN-LAST:event_mitHelpActionPerformed
+ 
 
     /**
      * @param args the command line arguments
@@ -752,6 +850,7 @@ public class DashBoard extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem mitClose;
+    private javax.swing.JMenuItem mitHelp;
     private javax.swing.JTable tblStudentInfo;
     private javax.swing.JTable tblStudentShortInfo;
     private javax.swing.JButton toolSignOut;

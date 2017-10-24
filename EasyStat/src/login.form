@@ -113,7 +113,7 @@
               <Font name="Tekton Pro Ext" size="14" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/loginSmall.png"/>
+              <Image iconType="3" name="/images/loginSmall.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Login"/>
           </Properties>
@@ -228,7 +228,7 @@
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/SWiFT_ICONS-01_MTSS.png"/>
+              <Image iconType="3" name="/images/SWiFT_ICONS-01_MTSS.png"/>
             </Property>
           </Properties>
         </Component>

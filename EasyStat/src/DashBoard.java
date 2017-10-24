@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
@@ -97,6 +99,7 @@ public class DashBoard extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         toolSignOut = new javax.swing.JButton();
+        btnHelp = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
@@ -139,6 +142,7 @@ public class DashBoard extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         mitHelp = new javax.swing.JMenuItem();
+        mitWebHelp = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
@@ -149,7 +153,7 @@ public class DashBoard extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        toolSignOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/signout.png"))); // NOI18N
+        toolSignOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/signout.png"))); // NOI18N
         toolSignOut.setText("Sign Out");
         toolSignOut.setFocusable(false);
         toolSignOut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -160,6 +164,18 @@ public class DashBoard extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(toolSignOut);
+
+        btnHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/help.png"))); // NOI18N
+        btnHelp.setText("Help");
+        btnHelp.setFocusable(false);
+        btnHelp.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnHelp.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHelpActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnHelp);
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 204));
 
@@ -465,7 +481,7 @@ public class DashBoard extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.setBackground(new java.awt.Color(235, 252, 252));
         jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         tblStudentShortInfo.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
@@ -557,7 +573,7 @@ public class DashBoard extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         mitClose.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        mitClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/closeSmall.png"))); // NOI18N
+        mitClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/closeSmall.png"))); // NOI18N
         mitClose.setText("LogOut");
         mitClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -567,7 +583,7 @@ public class DashBoard extends javax.swing.JFrame {
         jMenu1.add(mitClose);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/exit.png"))); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit.png"))); // NOI18N
         jMenuItem1.setText("Exit");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -584,7 +600,7 @@ public class DashBoard extends javax.swing.JFrame {
         jMenu3.setText("Help");
 
         mitHelp.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        mitHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/help.png"))); // NOI18N
+        mitHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/help.png"))); // NOI18N
         mitHelp.setText("Offline Help");
         mitHelp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -592,6 +608,16 @@ public class DashBoard extends javax.swing.JFrame {
             }
         });
         jMenu3.add(mitHelp);
+
+        mitWebHelp.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mitWebHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/webHelp.png"))); // NOI18N
+        mitWebHelp.setText("Web Help");
+        mitWebHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitWebHelpActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mitWebHelp);
 
         jMenuBar1.add(jMenu3);
 
@@ -777,6 +803,24 @@ public class DashBoard extends javax.swing.JFrame {
         } 
             
     }//GEN-LAST:event_mitHelpActionPerformed
+
+    private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
+        try{
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"D:\\Mine\\Java\\StudentRecord\\EasyStat\\Files\\Help.pdf");
+        }catch(IOException e ){
+            JOptionPane.showMessageDialog(rootPane, "Error opening File");
+        } 
+    }//GEN-LAST:event_btnHelpActionPerformed
+
+    private void mitWebHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitWebHelpActionPerformed
+        // TODO add your handling code here:
+        String url = "https://www.google.lk/?gfe_rd=cr&dcr=0&ei=14vvWfK9AYaBqAGtrKU4";
+        try {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+        } catch (IOException ex) {
+            Logger.getLogger(DashBoard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mitWebHelpActionPerformed
  
 
     /**
@@ -816,6 +860,7 @@ public class DashBoard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboStudentGender;
+    private javax.swing.JButton btnHelp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -851,6 +896,7 @@ public class DashBoard extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem mitClose;
     private javax.swing.JMenuItem mitHelp;
+    private javax.swing.JMenuItem mitWebHelp;
     private javax.swing.JTable tblStudentInfo;
     private javax.swing.JTable tblStudentShortInfo;
     private javax.swing.JButton toolSignOut;

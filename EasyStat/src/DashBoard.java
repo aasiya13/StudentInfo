@@ -73,38 +73,38 @@ public class DashBoard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, e);
         }
     }
-    
-       private void  getVlaueForTextArea() {
-        try{
-        txtStudentId.setText(resultSet.getString("Student_id"));
-        txtStudentFname.setText(resultSet.getString("First_name"));
-        txtStudentLname.setText(resultSet.getString("Last_name"));
-        txtStudentDepartment.setText(resultSet.getString("Department"));
-        txtStudentSeries.setText(resultSet.getString("Series"));
-        txtStudentAge.setText(resultSet.getString("Age"));
-        txtStudentHeight.setText(resultSet.getString("Height"));
-        txtStudentWeight.setText(resultSet.getString("Weight"));
-        ComboStudentGender.setSelectedItem(resultSet.getString("Gender"));
-        txtStudentBlood.setText(resultSet.getString("Blood"));
-        } catch(SQLException e){
+
+    private void getVlaueForTextArea() {
+        try {
+            txtStudentId.setText(resultSet.getString("Student_id"));
+            txtStudentFname.setText(resultSet.getString("First_name"));
+            txtStudentLname.setText(resultSet.getString("Last_name"));
+            txtStudentDepartment.setText(resultSet.getString("Department"));
+            txtStudentSeries.setText(resultSet.getString("Series"));
+            txtStudentAge.setText(resultSet.getString("Age"));
+            txtStudentHeight.setText(resultSet.getString("Height"));
+            txtStudentWeight.setText(resultSet.getString("Weight"));
+            ComboStudentGender.setSelectedItem(resultSet.getString("Gender"));
+            txtStudentBlood.setText(resultSet.getString("Blood"));
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e);
         }
     }
-       
-    private void currentDate(){
-        Calendar cal = new GregorianCalendar(); 
+
+    private void currentDate() {
+        Calendar cal = new GregorianCalendar();
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        int month = cal.get(Calendar.MONTH)+1;
+        int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
-        
-        mnuDate.setText("Current Date : "+day+ "/ "+month+"/ "+year);
+
+        mnuDate.setText("Current Date : " + day + "/ " + month + "/ " + year);
         mnuDate.setForeground(Color.BLUE);
-        
+
         int second = cal.get(Calendar.SECOND);
         int minute = cal.get(Calendar.MINUTE);
         int hour = cal.get(Calendar.HOUR);
-        
-        mnuTime.setText("Logged Time : "+second+ " : "+minute+" : "+hour);
+
+        mnuTime.setText("Logged Time : " + second + " : " + minute + " : " + hour);
         mnuTime.setForeground(Color.RED);
     }
 
@@ -135,7 +135,7 @@ public class DashBoard extends javax.swing.JFrame {
         txtSearch = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -180,6 +180,7 @@ public class DashBoard extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        jToolBar1.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar1.setRollover(true);
 
         toolSignOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/signout.png"))); // NOI18N
@@ -339,8 +340,13 @@ public class DashBoard extends javax.swing.JFrame {
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Control", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Copperplate Gothic Bold", 0, 14), new java.awt.Color(0, 153, 204))); // NOI18N
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
-        jButton2.setText("ADD");
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
+        btnAdd.setText("ADD");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/edit.png"))); // NOI18N
         jButton3.setText("EDIT");
@@ -350,6 +356,11 @@ public class DashBoard extends javax.swing.JFrame {
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
         jButton5.setText("CLEAR");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -358,7 +369,7 @@ public class DashBoard extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -367,7 +378,7 @@ public class DashBoard extends javax.swing.JFrame {
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addComponent(jButton2)
+                .addComponent(btnAdd)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
@@ -623,8 +634,8 @@ public class DashBoard extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
@@ -900,20 +911,20 @@ public class DashBoard extends javax.swing.JFrame {
 
     private void mitHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitHelpActionPerformed
         // TODO add your handling code here:
-        try{
-            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"D:\\Mine\\Java\\StudentRecord\\EasyStat\\Files\\Help.pdf");
-        }catch(IOException e ){
+        try {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "D:\\Mine\\Java\\StudentRecord\\EasyStat\\Files\\Help.pdf");
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(rootPane, "Error opening File");
-        } 
-            
+        }
+
     }//GEN-LAST:event_mitHelpActionPerformed
 
     private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
-        try{
-            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+"D:\\Mine\\Java\\StudentRecord\\EasyStat\\Files\\Help.pdf");
-        }catch(IOException e ){
+        try {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "D:\\Mine\\Java\\StudentRecord\\EasyStat\\Files\\Help.pdf");
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(rootPane, "Error opening File");
-        } 
+        }
     }//GEN-LAST:event_btnHelpActionPerformed
 
     private void mitWebHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitWebHelpActionPerformed
@@ -929,19 +940,67 @@ public class DashBoard extends javax.swing.JFrame {
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
         String sql = "select * from Student_info where First_name = ? or Student_id = ?";
-        try{
+        try {
             pst = connection.prepareStatement(sql);
             pst.setString(1, txtSearch.getText());
             pst.setString(2, txtSearch.getText());
             resultSet = pst.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 getVlaueForTextArea();
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e);
         }
     }//GEN-LAST:event_txtSearchKeyReleased
- 
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        txtStudentId.setText(null);
+        txtStudentFname.setText(null);
+        txtStudentLname.setText(null);
+        txtStudentDepartment.setText(null);
+        txtStudentSeries.setText(null);
+        txtStudentAge.setText(null);
+        txtStudentHeight.setText(null);
+        txtStudentWeight.setText(null);
+        txtStudentBlood.setText(null);
+        ComboStudentGender.setSelectedItem("Male");
+
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here: 
+       String sql = "insert into Student_info(Student_id,First_name,Last_name,Department,Series,Age,Height,Weight,"
+                + "Gender,Blood) values(?,?,?,?,?,?,?,?,?,?)";
+        
+        try {
+            pst = connection.prepareStatement(sql);
+
+            pst.setString(1, txtStudentId.getText());
+            pst.setString(2, txtStudentFname.getText());
+            pst.setString(3, txtStudentLname.getText());
+            pst.setString(4, txtStudentDepartment.getText());
+            pst.setString(5, txtStudentSeries.getText());
+            pst.setString(6, txtStudentAge.getText());
+            pst.setString(7, txtStudentHeight.getText());
+            pst.setString(8, txtStudentWeight.getText());
+            pst.setString(9, (String) ComboStudentGender.getSelectedItem());
+            pst.setString(10, txtStudentBlood.getText());
+
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(rootPane, "Saved");
+            /*    if (resultSet.next()){
+                getVlaueForTextArea();
+            }*/
+            updateStudentInfoTbl();
+            updateStudentShortInfoTbl();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -980,9 +1039,9 @@ public class DashBoard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboStudentGender;
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnHelp;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
